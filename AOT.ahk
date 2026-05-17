@@ -10,14 +10,22 @@
  * You have been warned, stop cheating, click the damn game yourself!
 */
 
+
+maxTimes := [80, 60, 60, 60]
+maxSrTime := 4 * 60 + 20
+
+if (A_Args.Length = 5) {
+	maxTimes := A_Args
+	maxSrTime := A_Args.Pop()
+}
+
 ^!c:: {
 	ExitApp
 }
 
 CoordMode "Mouse", "Client"
 
-maxTimes := [80, 60, 60, 60]
-maxSrTime := 4 * 60 + 20
+
 
 hWnd := WinExist("GrandChase")
 if !hWnd {
@@ -85,8 +93,9 @@ DoBattle(&ocrResult) {
 DoMultiBattle(&ocrResult) {
 	tryResult := ocrResult
 	Loop {	
-		batalhas := tryResult.FindStrings("Batalha")
-		try tryResult.Click(batalhas[-2])
+		batalhas := tryResult.FindStrings("Consecutiva")
+		msgbox tryResult.Text
+		try tryResult.Click(batalhas[-1])
 		catch {
 			;try another string
 			try tryResult.Click(tryResult.FindString("Batalha Consecutiva"))
